@@ -8,8 +8,8 @@
 
 // -------------- USER PARAMETERS ----------------
 
-input_dir = getDirectory("Choose input folder with stacks");
-// input_dir = "/Volumes/ROYAAB/Src_CA/WT/Sample18_Late/Processed/Stacks";
+input_dir = getDirectory("Choose path to input");
+// input_dir = "/Volumes/ROYAAB/Src_CA/WT/Sample18_Late/Processed/Stacks/";
 
 roi_path = File.openDialog("Choose ROI or ROI set (.roi or .zip)");
 
@@ -17,8 +17,8 @@ output_subfolder = "cropped/";
 
 input_ext = "tif";
 
-output_format = "Jpeg";
-output_ext = ".jpg";
+output_format = "Tiff";
+output_ext = ".tif";
 
 roi_index = 0;
 
@@ -37,6 +37,7 @@ run("ROI Manager...");
 roiManager("Reset");
 roiManager("Open", roi_path);
 
+list = getFileList(input_dir);
 for (i = 0; i < list.length; i++) {
     nameLower = toLowerCase(list[i]);
     // Skip non-matching extensions
@@ -53,7 +54,7 @@ for (i = 0; i < list.length; i++) {
     open(filepath);
 
     // Apply ROI and crop
-    roiManager("Select", roiIndex);
+    roiManager("Select", roi_index);
     run("Crop");  // creates a new cropped image and makes it active
 
     // Build output path and save
